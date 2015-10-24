@@ -10,4 +10,8 @@
 
 (defn train
   []
-  (println "Choo Choo!"))
+  (println "Choo Choo!")) 
+
+(defn numbers
+  []
+  (+ 1 (* 2 3) 4))
