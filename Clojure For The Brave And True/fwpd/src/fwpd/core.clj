@@ -57,5 +57,13 @@
 (defn append
   "Appends a suspect to the current suspects"
   [suspect suspects]
-  (conj  suspects {:name (get suspect :name) 
-                   :glitter-index (get suspect :glitter-index)}))
+  (if (validate-suspect suspect)
+      (conj  suspects {:name (get suspect :name) :glitter-index (get suspect :glitter-index)})
+      suspects))
+
+(defn validate-suspect
+  "Ensures a valid suspect"
+  [suspect]
+  (if (cond (contains? suspect :name) (contains? suspect :glitter-index))
+    true
+    false))
