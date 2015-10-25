@@ -53,3 +53,9 @@
   "Gets only names of suspects"
   [suspects]
   (map :name suspects))
+
+(defn append
+  "Appends a suspect to the current suspects"
+  [suspect suspects]
+  (conj  suspects {:name (get suspect :name) 
+                   :glitter-index (get suspect :glitter-index)}))
