@@ -36,3 +36,13 @@
   (def set (hash-set 1 2 3 5 8))
   (println "Adding" number "to" set)
   (println "Resulting hash set" (conj set number)))
+
+(defn inc-100
+  "Increase a number by 100"
+  [number]
+  (+ 100 number))
+
+(defn dec-maker
+  "Create a custom number subtractor"
+  [dec-by]
+  #(- % dec-by))
