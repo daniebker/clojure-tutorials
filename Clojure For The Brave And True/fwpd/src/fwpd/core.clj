@@ -76,11 +76,13 @@
 
 (defn validate
   "Return a sequence of maps like {:name \"Edward Cullen\" :glitter-index 10}"
-  [validations record]
-  (reduce (fn [row-map [vamp-key value]]
-            ((get validations vamp-key) (get record vamp-key)))
-          {}
-          validations))
+  [validation record] 
+  (reduce (fn [result [key val-func]]
+            (if result                          
+              (val-func (get record key))
+              false))
+          {}          
+          validation))
 
 (defn append
   "Appends a suspect to the current suspects"
