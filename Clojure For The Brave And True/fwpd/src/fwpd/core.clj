@@ -9,11 +9,24 @@
   [str]
   (Integer. str))
 
+(defn valid-str
+  "validates an item is a str"
+  [str]
+  (instance? String str))
+
+(defn valid-int
+  "Validates an item is an int"
+  [int]
+  (integer? int))
+
 ;;Associates a conversion function with each of the vamp keys.
 ;;No need to conver name, identity just returns the argument
 ;;passed to it.
 (def conversions {:name identity
                   :glitter-index str->int})
+
+(def validations {:name valid-str
+                  :glitter-index valid-int })
 
 (defn convert
   "Takes a vamp key and a value and returns the converted value"
@@ -54,16 +67,24 @@
   [suspects]
   (map :name suspects))
 
+(defn v
+  "Ensures a map contains a key"
+  [validations record]
+  (if (contains? record validations)
+    true
+    false))
+
+(defn validate
+  "Return a sequence of maps like {:name \"Edward Cullen\" :glitter-index 10}"
+  [validations record]
+  (reduce (fn [row-map [vamp-key value]]
+            ((get validations vamp-key) (get record vamp-key)))
+          {}
+          validations))
+
 (defn append
   "Appends a suspect to the current suspects"
   [suspect suspects]
-  (if (validate-suspect suspect)
+  (if (validate validations suspect)
       (conj  suspects {:name (get suspect :name) :glitter-index (get suspect :glitter-index)})
       suspects))
-
-(defn validate-suspect
-  "Ensures a valid suspect"
-  [suspect]
-  (if (cond (contains? suspect :name) (contains? suspect :glitter-index))
-    true
-    false))
