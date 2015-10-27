@@ -9,6 +9,12 @@
   [str]
   (Integer. str))
 
+;;Associates a conversion function with each of the vamp keys.
+;;No need to conver name, identity just returns the argument
+;;passed to it.
+(def conversions {:name identity
+                  :glitter-index str->int})
+
 (defn valid-str
   "validates an item is a str"
   [str]
@@ -19,11 +25,6 @@
   [int]
   (integer? int))
 
-;;Associates a conversion function with each of the vamp keys.
-;;No need to conver name, identity just returns the argument
-;;passed to it.
-(def conversions {:name identity
-                  :glitter-index str->int})
 
 (def validations {:name valid-str
                   :glitter-index valid-int })
@@ -75,7 +76,7 @@
     false))
 
 (defn validate
-  "Return a sequence of maps like {:name \"Edward Cullen\" :glitter-index 10}"
+  "Validates all keys in a map evaluate to a valid type"
   [validation record] 
   (reduce (fn [result [key val-func]]
             (if result                          
